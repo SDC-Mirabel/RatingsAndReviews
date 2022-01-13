@@ -1,5 +1,6 @@
 node_modules
 config.js
+postgresConfig.js
 public/app.js
 .DS_Store
 public/app.js.LICENSE.txt
