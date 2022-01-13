@@ -23,7 +23,7 @@ app.get('/products', (req, res) => {
   let endpoint = url + 'products';
   axios.get(endpoint, {
     headers: {
-      'Authorization': TOKEN.TOKEN,
+      'Authorization': TOKEN,
     }
   })
     .then((response) => {
@@ -41,7 +41,7 @@ app.get('/products/:product_id', (req, res) => {
   let endpoint = url + 'products/' + id;
   axios.get(endpoint, {
     headers: {
-      'Authorization': TOKEN.TOKEN,
+      'Authorization': TOKEN,
     }
   })
     .then((response) => {
@@ -59,7 +59,7 @@ app.get('/products/:product_id/styles', (req, res) => {
 
   axios.get(endpoint, {
     headers: {
-      'Authorization': TOKEN.TOKEN,
+      'Authorization': TOKEN,
     }
   })
     .then((response) => {
@@ -77,7 +77,7 @@ app.get('/products/:product_id/related', (req, res) => {
 
   axios.get(endpoint, {
     headers: {
-      'Authorization': TOKEN.TOKEN,
+      'Authorization': TOKEN,
     }
   })
     .then((response) => {
@@ -98,7 +98,7 @@ app.get('/reviews/:product_id', (req, res) => {
 
   axios.get(endpoint, {
     headers: {
-      "Authorization": TOKEN.TOKEN,
+      "Authorization": TOKEN,
     },
     params: {
       'product_id': id,
@@ -142,7 +142,7 @@ app.put('/reviews/:review_id/helpful', (req, res) => {
 
   axios.put(endpoint, null, {
     headers: {
-      'Authorization': TOKEN.TOKEN,
+      'Authorization': TOKEN,
     }
   })
     .then((response) => {
@@ -160,7 +160,7 @@ app.put('/reviews/:review_id/report', (req, res) => {
 
   axios.put(endpoint, null, {
     headers: {
-      'Authorization': TOKEN.TOKEN,
+      'Authorization': TOKEN,
     }
   })
     .then(response => {
@@ -177,7 +177,7 @@ app.post('/reviews', (req, res) => {
   console.log(newReview);
   axios.post(endpoint, newReview, {
     headers: {
-      'Authorization': TOKEN.TOKEN,
+      'Authorization': TOKEN,
       'Content-Type': 'application/JSON'
     }
   })
@@ -194,7 +194,7 @@ app.post('/interactions', (req, res) => {
   console.log(req.body);
   axios.post(endpoint, req.body, {
     headers: {
-      'Authorization': TOKEN.TOKEN,
+      'Authorization': TOKEN,
       'Content-Type': 'application/JSON'
     }
   })
@@ -217,7 +217,7 @@ app.get('/qa/questions', (req, res) => {
 
   axios.get(endpoint, {
     headers: {
-      "Authorization": TOKEN.TOKEN,
+      "Authorization": TOKEN,
     },
     params: {
       product_id: id,
@@ -240,7 +240,7 @@ app.get('/qa/questions/:product_id/answers', (req, res) => {
 
   axios.get(endpoint, {
     headers: {
-      'Authorization': TOKEN.TOKEN,
+      'Authorization': TOKEN,
     },
     // params: {
     //   "product_id": id,
@@ -264,7 +264,7 @@ app.put('/qa/answers/:answer_id/helpful', (req, res) => {
 
   axios.put(endpoint, count, {
     headers: {
-      "Authorization": TOKEN.TOKEN,
+      "Authorization": TOKEN,
     },
     query: {
       "answer_id": id,
@@ -285,7 +285,7 @@ app.put('/qa/answers/:answer_id/report', (req, res) => {
   console.log('Response in server PUT', res);
   axios.put(endpoint, id, {
     headers: {
-      "Authorization": TOKEN.TOKEN,
+      "Authorization": TOKEN,
     }
   })
   .then(response => {
@@ -299,7 +299,7 @@ app.post('/qa/questions', (req, res) => {
   console.log('Q&A POST: ', req);
   axios.post(endpoint, newQ, {
     headers: {
-      "Authorization": TOKEN.TOKEN,
+      "Authorization": TOKEN,
     }
   })
   .then((response) => {
@@ -317,7 +317,7 @@ app.post('/qa/questions/:question_id/answers', (req, res) => {
   console.log('Q&A POST FOR ADDING ANSWERS: ', req);
   axios.post(endpoint, newA, {
     headers: {
-      "Authorization": TOKEN.TOKEN,
+      "Authorization": TOKEN,
     }
   })
   .then((response) => {

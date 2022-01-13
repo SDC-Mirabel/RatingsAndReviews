@@ -3,3 +3,6 @@ config.js
 public/app.js
 .DS_Store
 public/app.js.LICENSE.txt
+reviews.csv
+reviews_photos.csv
+csv_files
