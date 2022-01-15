@@ -4,15 +4,17 @@ const app = express();
 const path = require('path');
 const axios = require('axios');
 const TOKEN = require('../config.js');
+const router = require('./routes.js');
 
 let url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/';
 
 app.use(express.static('public'));
 app.use(express.json());
+app.use('/reviews', router);
 
 console.log(path.join(__dirname, '../public/index.html'));
-const db = require ('../database/index.js');
 
+// const db = require ('../database/index.js');
 
 // app.get('/reviews', (req, res) => {
 //   db.returnOneReview((error, result) => {
@@ -25,80 +27,80 @@ const db = require ('../database/index.js');
 // });
 
 // Products Routes
-app.get('/', function(req, res) {
-  console.log('Hi');
-  res.send();
-});
+// app.get('/', function(req, res) {
+//   console.log('Hi');
+//   res.send();
+// });
 
-app.get('/products', (req, res) => {
-  let endpoint = url + 'products';
-  axios.get(endpoint, {
-    headers: {
-      'Authorization': TOKEN,
-    }
-  })
-    .then((response) => {
-      console.log('Data from get to Products endpoint: ', response);
-      let jsonData = JSON.stringify(response.data);
-      res.send(response.data);
-    })
-    .catch((err) => {
-      console.log('Error! ', err);
-    });
-});
+// app.get('/products', (req, res) => {
+//   let endpoint = url + 'products';
+//   axios.get(endpoint, {
+//     headers: {
+//       'Authorization': TOKEN,
+//     }
+//   })
+//     .then((response) => {
+//       console.log('Data from get to Products endpoint: ', response);
+//       let jsonData = JSON.stringify(response.data);
+//       res.send(response.data);
+//     })
+//     .catch((err) => {
+//       console.log('Error! ', err);
+//     });
+// });
 
-app.get('/products/:product_id', (req, res) => {
-  let id = req.params.product_id;
-  let endpoint = url + 'products/' + id;
-  axios.get(endpoint, {
-    headers: {
-      'Authorization': TOKEN,
-    }
-  })
-    .then((response) => {
-      console.log(response);
-      res.send(response.data);
-    })
-    .catch((err) => {
-      console.log('Error! ', err);
-    });
-});
+// app.get('/products/:product_id', (req, res) => {
+//   let id = req.params.product_id;
+//   let endpoint = url + 'products/' + id;
+//   axios.get(endpoint, {
+//     headers: {
+//       'Authorization': TOKEN,
+//     }
+//   })
+//     .then((response) => {
+//       console.log(response);
+//       res.send(response.data);
+//     })
+//     .catch((err) => {
+//       console.log('Error! ', err);
+//     });
+// });
 
-app.get('/products/:product_id/styles', (req, res) => {
-  let id = req.params.product_id;
-  let endpoint = url + 'products/' + id + '/styles';
+// app.get('/products/:product_id/styles', (req, res) => {
+//   let id = req.params.product_id;
+//   let endpoint = url + 'products/' + id + '/styles';
 
-  axios.get(endpoint, {
-    headers: {
-      'Authorization': TOKEN,
-    }
-  })
-    .then((response) => {
-      console.log(response);
-      res.send(response.data);
-    })
-    .catch((err) => {
-      console.log('Error! ', err);
-    });
-});
+//   axios.get(endpoint, {
+//     headers: {
+//       'Authorization': TOKEN,
+//     }
+//   })
+//     .then((response) => {
+//       console.log(response);
+//       res.send(response.data);
+//     })
+//     .catch((err) => {
+//       console.log('Error! ', err);
+//     });
+// });
 
-app.get('/products/:product_id/related', (req, res) => {
-  let id = req.params.product_id;
-  let endpoint = url + 'products/' + id + '/related';
+// app.get('/products/:product_id/related', (req, res) => {
+//   let id = req.params.product_id;
+//   let endpoint = url + 'products/' + id + '/related';
 
-  axios.get(endpoint, {
-    headers: {
-      'Authorization': TOKEN,
-    }
-  })
-    .then((response) => {
-      console.log(response);
-      res.send(response.data);
-    })
-    .catch((err) => {
-      console.log('Error! ', err);
-    });
-});
+//   axios.get(endpoint, {
+//     headers: {
+//       'Authorization': TOKEN,
+//     }
+//   })
+//     .then((response) => {
+//       console.log(response);
+//       res.send(response.data);
+//     })
+//     .catch((err) => {
+//       console.log('Error! ', err);
+//     });
+// });
 
 // Reviews Routes
 // app.get('/reviews/:product_id', (req, res) => {
@@ -125,8 +127,14 @@ app.get('/products/:product_id/related', (req, res) => {
 //     });
 // });
 
-// app.get('/reviews', (req, res) => {
-//   db.returnOneReview((error, result) => {
+// app.get('/reviews/:product_id', (req, res) => {
+//   let id = 40344 || req.params.product_id;
+//   let count = 2 || req.params.count;
+//   // let page = 1 || req.params.page;
+//   let requestData = [id, count];
+
+//   db.getReviews(requestData, (error, result) => {
+//     console.log(requestData);
 //     if (error) {
 //       res.status(404).send(error);
 //     } else {
@@ -135,95 +143,79 @@ app.get('/products/:product_id/related', (req, res) => {
 //   });
 // });
 
-app.get('/reviews', (req, res) => {
-  let id = 40344 || req.params.product_id;
-  let count = 2 || req.params.count;
-  // let page = 1 || req.params.page;
-  let requestData = [id, count];
+// app.get('/reviews/:product_id/meta', (req, res) => {
+//   let id = req.params.product_id;
+//   let endpoint = url + 'reviews/meta';
 
-  db.getReviews(requestData, (error, result) => {
-    console.log(requestData);
-    if (error) {
-      res.status(404).send(error);
-    } else {
-      res.status(200).send(result);
-    }
-  });
-});
+//   axios.get(endpoint, {
+//     headers: {
+//       'Authorization': TOKEN.TOKEN,
+//     },
+//     params: {
+//       'product_id': id,
+//     }
+//   })
+//     .then((response) => {
+//       console.log(response);
+//       res.send(response.data);
+//     })
+//     .catch((err) => {
+//       console.log('Error! ', err);
+//     });
+// });
 
-app.get('/reviews/:product_id/meta', (req, res) => {
-  let id = req.params.product_id;
-  let endpoint = url + 'reviews/meta';
+// app.put('/reviews/:review_id/helpful', (req, res) => {
+//   let id = req.params.review_id;
+//   let endpoint = url + `reviews/${id}/helpful`;
 
-  axios.get(endpoint, {
-    headers: {
-      'Authorization': TOKEN.TOKEN,
-    },
-    params: {
-      'product_id': id,
-    }
-  })
-    .then((response) => {
-      console.log(response);
-      res.send(response.data);
-    })
-    .catch((err) => {
-      console.log('Error! ', err);
-    });
-});
+//   axios.put(endpoint, null, {
+//     headers: {
+//       'Authorization': TOKEN,
+//     }
+//   })
+//     .then((response) => {
+//       console.log(response);
+//       res.end(response.data);
+//     })
+//     .catch((err) => {
+//       console.log('Error! ', err);
+//     });
+// });
 
-app.put('/reviews/:review_id/helpful', (req, res) => {
-  let id = req.params.review_id;
-  let endpoint = url + `reviews/${id}/helpful`;
+// app.put('/reviews/:review_id/report', (req, res) => {
+//   let id = req.params.review_id;
+//   let endpoint = url + `reviews/${id}/report`;
 
-  axios.put(endpoint, null, {
-    headers: {
-      'Authorization': TOKEN,
-    }
-  })
-    .then((response) => {
-      console.log(response);
-      res.end(response.data);
-    })
-    .catch((err) => {
-      console.log('Error! ', err);
-    });
-});
+//   axios.put(endpoint, null, {
+//     headers: {
+//       'Authorization': TOKEN,
+//     }
+//   })
+//     .then(response => {
+//       res.end(response.data);
+//     })
+//     .catch((err) => {
+//       console.log('Error! ', err);
+//     });
+// });
 
-app.put('/reviews/:review_id/report', (req, res) => {
-  let id = req.params.review_id;
-  let endpoint = url + `reviews/${id}/report`;
-
-  axios.put(endpoint, null, {
-    headers: {
-      'Authorization': TOKEN,
-    }
-  })
-    .then(response => {
-      res.end(response.data);
-    })
-    .catch((err) => {
-      console.log('Error! ', err);
-    });
-});
-
-app.post('/reviews', (req, res) => {
-  let endpoint = url + 'reviews';
-  let newReview = req.body;
-  console.log(newReview);
-  axios.post(endpoint, newReview, {
-    headers: {
-      'Authorization': TOKEN,
-      'Content-Type': 'application/JSON'
-    }
-  })
-    .then(response => {
-      res.end(response.body);
-    })
-    .catch((err) => {
-      console.log('ERRRRRRRRRR: ', err);
-    });
-});
+// app.post('/reviews', (req, res) => {
+//   let endpoint = url + 'reviews';
+//   let newReview = req.body;
+//   console.log(newReview);
+//   axios.post(endpoint, newReview, {
+//     headers: {
+//       'Authorization': TOKEN,
+//       'Content-Type': 'application/JSON'
+//     }
+//   })
+//     .then(response => {
+//       res.end(response.body);
+//     })
+//     .catch((err) => {
+//       console.log('ERRRRRRRRRR: ', err);
+//     });
+// });
 
 // app.post('/interactions', (req, res) => {
 //   let endpoint = url + 'interactions';
