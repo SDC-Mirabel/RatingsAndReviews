@@ -9,14 +9,6 @@ const client = new Client({
   database: 'sdc'
 });
 
-// postgres.connect((err) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log('Connected to psql!');
-//   }
-// });
-
 client.connect();
 
 const getReviewsQuery =
@@ -28,26 +20,32 @@ where product_id = $1
 group by reviews.id
 limit $2;`;
 
-const getReviewsMetaQuery =
-`select product_id,
+const getReviewsMetaQuery = `select reviews.product_id,
+json_build_object(
+  '1', (select count(rating) from reviews where product_id = $1 AND rating = 1),
+  '2', (select count(rating) from reviews where product_id = $1 AND rating = 2),
+  '3', (select count(rating) from reviews where product_id = $1 AND rating = 3),
+  '4', (select count(rating) from reviews where product_id = $1 AND rating = 4),
+  '5', (select count(rating) from reviews where product_id = $1 AND rating = 5)) as ratings,
   json_build_object(
-    '1', (select count(rating) from reviews where product_id = 1000011 AND rating = 1),
-    '2', (select count(rating) from reviews where product_id = 1000011 AND rating = 2),
-    '3', (select count(rating) from reviews where product_id = 1000011 AND rating = 3),
-    '4', (select count(rating) from reviews where product_id = 1000011 AND rating = 4),
-    '5', (select count(rating) from reviews where product_id = 1000011 AND rating = 5)) as ratings,
-  json_build_object(
-    'false', (select count(recommended) from reviews where product_id = 1000011 AND recommended = 'false'),
-    'true', (select count(recommended) from reviews where product_id = 1000011 AND recommended = 'true')) as recommended,
-  json_build_object(
-    )
-    from reviews where product_id = 1000011 group by reviews.product_id;`;
+  'false', (select count(recommended) from reviews where product_id = $1 AND recommended = 'false'),
+  'true', (select count(recommended) from reviews where product_id = $1 AND recommended = 'true')) as recommended,
+  json_object_agg(
+    characteristics.characteristic_name, json_build_object
+      ('id', characteristicreviews.id, 'value',
+        (SELECT avg(characteristicreviews.characteristic_value) FROM characteristicreviews where characteristicreviews.characteristic_id = characteristics.id)
+      )
+    ) as characteristics
+    from reviews
+    left join characteristics on characteristics.product_id = reviews.product_id
+    left join characteristicreviews on characteristicreviews.characteristic_id = characteristics.id
+    where reviews.product_id = $1
+    group by reviews.product_id;`;
 
 // select product_id, json_build_object(rating, count(rating)) as ratings from reviews where product_id = 1000011 group by reviews.product_id, rating;
-const characteristicReviewsQuery = `select reviews.product_id, characteristics.characteristic_name, avg(characteristicreviews.characteristic_value) from reviews inner join characteristics on reviews.product_id = characteristics.product_id inner join characteristicreviews on characteristics.id = characteristicreviews.characteristic_id where reviews.product_id = 1 group by characteristics.characteristic_name, reviews.product_id;`;
+// const characteristicReviewsQuery = `select reviews.product_id, characteristics.characteristic_name, avg(characteristicreviews.characteristic_value) from reviews inner join characteristics on reviews.product_id = characteristics.product_id inner join characteristicreviews on characteristics.id = characteristicreviews.characteristic_id where reviews.product_id = 1 group by characteristics.characteristic_name, reviews.product_id;`;
 
 getReviews = (queryParams, callback) => {
-  // console.log('in db, before the query: ---', queryParams);
   client.query(getReviewsQuery, queryParams)
     .then((response) => {
       callback(null, response);
@@ -67,28 +65,7 @@ getReviewsMeta = (queryParams, callback) => {
     });
 };
 
-getCharacteristicsReviews = (queryParams, callback) => {
-  client.query(characteristicReviewsQuery, queryParams)
-    .then((response) => {
-      callback(null, response);
-    })
-    .catch((error) => {
-      callback(error);
-    });
-};
-// returnOneReview = (callback) => {
-//   var sqlString = 'select * from reviews where product_id = 1;';
-//   client.query(sqlString, (error, results, fields) => {
-//     if (error) {
-//       callback(error, null);
-//       console.log('goodbye');
-//     } else {
-//       callback(null, results);
-//       console.log('hello');
-//     }
-//   });
-// };
-
 module.exports = {
   getReviews: getReviews,
+  getReviewsMeta: getReviewsMeta,
 };

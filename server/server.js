@@ -127,22 +127,6 @@ console.log(path.join(__dirname, '../public/index.html'));
 //     });
 // });
 
-// app.get('/reviews/:product_id', (req, res) => {
-//   let id = 40344 || req.params.product_id;
-//   let count = 2 || req.params.count;
-//   // let page = 1 || req.params.page;
-//   let requestData = [id, count];
-
-//   db.getReviews(requestData, (error, result) => {
-//     console.log(requestData);
-//     if (error) {
-//       res.status(404).send(error);
-//     } else {
-//       res.status(200).send(result);
-//     }
-//   });
-// });
-
 // app.get('/reviews/:product_id/meta', (req, res) => {
 //   let id = req.params.product_id;
 //   let endpoint = url + 'reviews/meta';

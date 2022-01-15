@@ -26,28 +26,19 @@ getReviews = (req, res) => {
 getReviewsMeta = (req, res) => {
   let queryId = req.query.product_id;
   let requestData = [queryId];
+  console.log('req query params: ---', req.query);
+  console.log('requestData : ---', requestData);
 
-  db.getReviews(requestData, (error, result) => {
+  db.getReviewsMeta(requestData, (error, result) => {
     if (error) {
       res.status(404).send(error);
     } else {
-      let response = {
-        product: queryId,
-        page: queryPage,
-        count: queryCount,
-        results: result.rows
-      };
-      // store into object
-    }
-  db.getReviews(requestData, (error, result) => {
-    if (error) {
-      res.status(404).send(error);
-    } else {
-      // store into object
-      res.status(200).send(/*object*/);
+      res.status(200).send(result.rows[0]);
     }
   });
 };
+
 module.exports = {
-  getReviews: getReviews
+  getReviews: getReviews,
+  getReviewsMeta: getReviewsMeta,
 };
