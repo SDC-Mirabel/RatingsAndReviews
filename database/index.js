@@ -44,14 +44,12 @@ const getReviewsMetaQuery =
     from reviews where product_id = 1000011 group by reviews.product_id;`;
 
 // select product_id, json_build_object(rating, count(rating)) as ratings from reviews where product_id = 1000011 group by reviews.product_id, rating;
+const characteristicReviewsQuery = `select reviews.product_id, characteristics.characteristic_name, avg(characteristicreviews.characteristic_value) from reviews inner join characteristics on reviews.product_id = characteristics.product_id inner join characteristicreviews on characteristics.id = characteristicreviews.characteristic_id where reviews.product_id = 1 group by characteristics.characteristic_name, reviews.product_id;`;
 
 getReviews = (queryParams, callback) => {
-  console.log('in db, before the query: ---', queryParams);
+  // console.log('in db, before the query: ---', queryParams);
   client.query(getReviewsQuery, queryParams)
     .then((response) => {
-      // response.rows.forEach((reviewObject) => {
-      //   reviewObject.date = new Date(Number(reviewObject.date));
-      // });
       callback(null, response);
     })
     .catch((error => {
@@ -59,6 +57,25 @@ getReviews = (queryParams, callback) => {
     }));
 };
 
+getReviewsMeta = (queryParams, callback) => {
+  client.query(getReviewsMetaQuery, queryParams)
+    .then((response) => {
+      callback(null, response);
+    })
+    .catch((error) => {
+      callback(error);
+    });
+};
+
+getCharacteristicsReviews = (queryParams, callback) => {
+  client.query(characteristicReviewsQuery, queryParams)
+    .then((response) => {
+      callback(null, response);
+    })
+    .catch((error) => {
+      callback(error);
+    });
+};
 // returnOneReview = (callback) => {
 //   var sqlString = 'select * from reviews where product_id = 1;';
 //   client.query(sqlString, (error, results, fields) => {
