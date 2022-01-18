@@ -26,8 +26,8 @@ getReviews = (req, res) => {
 getReviewsMeta = (req, res) => {
   let queryId = req.query.product_id;
   let requestData = [queryId];
-  console.log('req query params: ---', req.query);
-  console.log('requestData : ---', requestData);
+  // console.log('req query params: ---', req.query);
+  // console.log('requestData : ---', requestData);
 
   db.getReviewsMeta(requestData, (error, result) => {
     if (error) {

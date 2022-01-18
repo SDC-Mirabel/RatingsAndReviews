@@ -52,10 +52,10 @@ class QuestionsAndAnswers extends React.Component {
 
   handleDelete = (e) => {
     let questionsCopy = this.state.allQuestions.slice(0, 4);
-    console.log('questionsCopy: ', questionsCopy);
-    console.log('query: ', this.state.query);
+    // console.log('questionsCopy: ', questionsCopy);
+    // console.log('query: ', this.state.query);
     // var filterQs = this.filterQuestions();
-    console.log('filtered in handleSubmit', filterQs);
+    // console.log('filtered in handleSubmit', filterQs);
     if (this.state.query === '' || this.state.query.length < 3){
       this.setState({
         questions: questionsCopy
@@ -66,7 +66,7 @@ class QuestionsAndAnswers extends React.Component {
   searchOnInput = (e) => {
     let questionsCopy = this.state.allQuestions.slice(0, 4);
     var filterQs = this.filterQuestions();
-    console.log('filtered in handleSubmit', filterQs);
+    // console.log('filtered in handleSubmit', filterQs);
     if (filterQs && this.state.query.length >= 3) {
       this.setState({
         questions: filterQs
@@ -82,7 +82,7 @@ class QuestionsAndAnswers extends React.Component {
     let questionsCopy = this.state.allQuestions.slice(0, 4);
     e.preventDefault();
     var filterQs = this.filterQuestions();
-    console.log('filtered in handleSubmit', filterQs);
+    // console.log('filtered in handleSubmit', filterQs);
     if (filterQs) {
       this.setState({
         questions: filterQs
@@ -96,12 +96,12 @@ class QuestionsAndAnswers extends React.Component {
 
    filterQuestions = () => {
     var query = this.state.query.toLowerCase();
-    console.log('query', query);
+    // console.log('query', query);
     if (query) {
       var filteredQs = this.state.allQuestions.filter(question =>
         question.question_body.toLowerCase().includes(query));
     }
-    console.log('filtered', filteredQs);
+    // console.log('filtered', filteredQs);
     return filteredQs;
   }
 
@@ -112,7 +112,7 @@ class QuestionsAndAnswers extends React.Component {
   }
 
   getProdName = (product_id) => {
-    console.log('Getting Product Name...')
+    // console.log('Getting Product Name...')
     axios.get('/products/' + product_id, {
       responseType: 'json',
     })
@@ -120,7 +120,7 @@ class QuestionsAndAnswers extends React.Component {
       this.setState({
         productName: response.data.name
       })
-      console.log(response.data);
+      // console.log(response.data);
     })
     .catch((err) => {
       console.error('Error! ', err);
@@ -160,7 +160,7 @@ class QuestionsAndAnswers extends React.Component {
       responseType: 'json',
     })
     .then((response) => {
-      console.log('Response in Q&A: ', response);
+      // console.log('Response in Q&A: ', response);
       this.setState({
         questions: response.data.results
       })

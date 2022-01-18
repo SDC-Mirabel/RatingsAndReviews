@@ -12,7 +12,7 @@ export const AppProvider = (props) => {
 
   const recursionToFindParentElement = (target) => {
     if (target.id === 'container') {
-      console.log('found container');
+      // console.log('found container');
       return;
     }
     if (target.id === 'ratings-reviews') {
@@ -64,7 +64,7 @@ export const AppProvider = (props) => {
   useEffect(() => {
     axios.get('/products')
       .then((res) => {
-        console.log('products', res.data);
+        // console.log('products', res.data);
         const id = res.data[0].id;
         setProductId(id);
       })
