@@ -42,3 +42,5 @@ module.exports = {
   getReviews: getReviews,
   getReviewsMeta: getReviewsMeta,
 };
+
+// scp -i sdc-rr.pem ./db.dump ubuntu@ec2-18-144-81-86.us-west-1.compute.amazonaws.com~/

@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
-const { Client } = require('pg');
+const { Pool } = require('pg');
 const pw = require('../postgresConfig.js');
-const client = new Client({
+const pool1 = new Pool({
   user: 'timnevada',
   password: pw,
   host: '',
@@ -9,7 +9,7 @@ const client = new Client({
   database: 'sdc'
 });
 
-client.connect();
+pool1.connect();
 
 const getReviewsQuery =
 `select reviews.id as review_id, rating, summary, recommended as recommend, response, body, to_timestamp(review_date / 1000) as date, reviewer_name, helpfulness,
@@ -46,7 +46,7 @@ json_build_object(
 // const characteristicReviewsQuery = `select reviews.product_id, characteristics.characteristic_name, avg(characteristicreviews.characteristic_value) from reviews inner join characteristics on reviews.product_id = characteristics.product_id inner join characteristicreviews on characteristics.id = characteristicreviews.characteristic_id where reviews.product_id = 1 group by characteristics.characteristic_name, reviews.product_id;`;
 
 getReviews = (queryParams, callback) => {
-  client.query(getReviewsQuery, queryParams)
+  pool1.query(getReviewsQuery, queryParams)
     .then((response) => {
       callback(null, response);
     })
@@ -56,7 +56,7 @@ getReviews = (queryParams, callback) => {
 };
 
 getReviewsMeta = (queryParams, callback) => {
-  client.query(getReviewsMetaQuery, queryParams)
+  pool1.query(getReviewsMetaQuery, queryParams)
     .then((response) => {
       callback(null, response);
     })
