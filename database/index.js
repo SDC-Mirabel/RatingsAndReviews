@@ -1,6 +1,6 @@
 /* eslint-disable quotes */
 const { Pool } = require('pg');
-const pw = require('../postgresConfig.js');
+const pw = require('../../postgresConfig.js');
 const pool1 = new Pool({
   user: 'timnevada',
   password: pw,

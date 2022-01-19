@@ -16,6 +16,10 @@ console.log(path.join(__dirname, '../public/index.html'));
 
 // const db = require ('../database/index.js');
 
+app.get('/loaderio-98f207dfd2a82c1799084ee83f790acd', (req, res) => {
+  res.send('loaderio-98f207dfd2a82c1799084ee83f790acd');
+});
+
 // Products Routes
 app.get('/', function(req, res) {
   // console.log('Hi');
