@@ -3,8 +3,8 @@ const { Pool } = require('pg');
 const pw = require('../postgresConfig.js');
 const pool1 = new Pool({
   // use postgres on Ubuntu instance and timnevada on local instance
-  user: 'postgres',
-  password: pw,
+  user: 'timnevada',
+  password: '',
   host: '',
   port: 5432,
   database: 'sdc'

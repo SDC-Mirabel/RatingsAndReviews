@@ -10,6 +10,7 @@ getReviews = (req, res) => {
 
   db.getReviews(requestData, (error, result) => {
     if (error) {
+      console.log(error);
       res.status(404).send(error);
     } else {
       let response = {
@@ -18,7 +19,7 @@ getReviews = (req, res) => {
         count: queryCount,
         results: result.rows
       };
-      res.status(200).send(result);
+      res.status(200).send(response);
     }
   });
 };
